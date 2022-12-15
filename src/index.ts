@@ -40,6 +40,13 @@ app.post("/image/pass", upload.fields([
   res.status(200).send({encryptedBaseText}); // encrypted base 64 format being sent
   
 });
+app.post("/image/nopass", upload.single("file"), (req, res) => {
+  const encoded = imageToBase64(req.file?.buffer); // image is converted in base 64 format
+  const encryptedBaseText = createEncryptedText(encoded,);
+  res.status(200).send({encryptedBaseText}); // encrypted base 64 format being sent
+});
+
+
 
 app.listen(4000);
 
