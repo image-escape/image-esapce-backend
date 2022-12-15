@@ -36,4 +36,3 @@ app.listen(4000);
 
 // upload image > convert image to base64> using multer then encrypt without password
 // upload image > convert image to base64> using multer then encrypt with password
-// 
