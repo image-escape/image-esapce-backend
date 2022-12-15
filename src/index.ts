@@ -20,16 +20,25 @@ const { imageToBase64, base64ToImage } = new ImageController();
 const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
-  limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 },
+  // limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 },
 });
 
-app.post("/multerTest", upload.single("file"), (req, res) => {
-  console.log(req.file?.buffer);
-  const decodedimage = imageToBase64(req.file?.buffer);
-  console.log("decodedimage: ", decodedimage);
-  const encodedImage = base64ToImage(decodedimage)
-  fs.writeFileSync("decode Image.png",encodedImage )
-  res.status(200).send({decodedimage});
+app.post("/image/pass", upload.fields([
+  { 
+    name: 'file', 
+    maxCount: 1 
+  }, 
+  { 
+    name: 'pass', 
+    maxCount: 1 
+  }
+]), (req, res) => {
+  const password = req.body.pass;
+  const file: any= req.files
+  const encoded = imageToBase64(file.file[0].buffer); // image is converted in base 64 format
+  const encryptedBaseText = createEncryptedTextWithPassword(encoded,password);
+  res.status(200).send({encryptedBaseText}); // encrypted base 64 format being sent
+  
 });
 
 app.listen(4000);

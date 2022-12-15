@@ -5,7 +5,6 @@ import multer from "multer";
 export default class ImageController{
 
     public imageToBase64 (bitmap:any) {
-        console.log('bitmap: ', bitmap);
         var encodedImage =  Buffer.from(bitmap).toString('base64');
         return encodedImage;
 
