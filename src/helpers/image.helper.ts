@@ -1,15 +1,13 @@
-import fs from "fs";
-import multer from "multer";
+import { Format } from "../enums/utils.enums";
 
 export default class ImageHelper {
   public imageToBase64(bitmap: any) {
-    var encodedImage = Buffer.from(bitmap).toString("base64");
+    const encodedImage = Buffer.from(bitmap).toString(Format.BASE_64);
     return encodedImage;
   }
 
   public base64ToImage(code: any) {
-    var decodedImage = Buffer.from(code, "base64");
-    console.log("decodedImage: ", decodedImage);
+    const decodedImage = Buffer.from(code, Format.BASE_64);
     return decodedImage;
   }
 }

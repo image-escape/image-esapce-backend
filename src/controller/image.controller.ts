@@ -24,14 +24,18 @@ export default class ImageController extends ImageHelper {
   };
 
   public imageWithPasswordController = async (req: Request, res: Response) => {
-    const { password } = req.body,
-      { file }: any = req.files;
-    const [{ buffer }] = file;
-    const encoded = this.imageToBase64(buffer); // image is converted in base 64 format
-    const encryptedBaseText = createEncryptedTextWithPassword(
-      encoded,
-      password
-    );
-    res.status(200).send({ encryptedBaseText });
+    try {
+      const { password } = req.body,
+        { file }: any = req.files;
+      const [{ buffer }] = file;
+      const encoded = this.imageToBase64(buffer); // image is converted in base 64 format
+      const encryptedBaseText = createEncryptedTextWithPassword(
+        encoded,
+        password
+      );
+      res.status(200).send({ encryptedBaseText });
+    } catch (error) {
+      res.status(500).send({ error });
+    }
   };
 }

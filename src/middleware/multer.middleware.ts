@@ -13,7 +13,7 @@ export const multerMultiUpload = upload.fields([
     maxCount: 1,
   },
   {
-    name: "pass",
+    name: "password",
     maxCount: 1,
   },
 ]);
