@@ -32,8 +32,8 @@ app.use(
 );
 app.use("/api", router);
 
-app.listen(5000, () => {
-  console.log("🚀Server started on port 5000");
+app.listen(4000, () => {
+  console.log("🚀Server started on port 4000");
 });
 
 // upload image > convert image to base64> using multer then encrypt without password

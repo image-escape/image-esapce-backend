@@ -35,6 +35,7 @@ export default class ImageController extends ImageHelper {
       );
       res.status(200).send({ encryptedBaseText });
     } catch (error) {
+      console.log('error: ', error);
       res.status(500).send({ error });
     }
   };
