@@ -20,11 +20,8 @@ export default class TextController {
   public createEncryptedText = (text: string) => {
     const key = this._createEncryptionKey(),
       iv = this._createIV();
-    // console.log("iv: ", iv);
-    // console.log("key: ", key);
     const cipher = crypto.createCipheriv(this._algorithm, key, iv);
     const encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
-    // console.log("encrypted: ", encrypted, text);das
     return encrypted;
   };
 
@@ -34,18 +31,14 @@ export default class TextController {
     const decipher = crypto.createDecipheriv(this._algorithm, key, iv);
     const decrypted =
       decipher.update(encryptedText, "hex", "utf8") + decipher.final("utf8");
-    // console.log("decrypted: ", decrypted);
   };
 
   // To Create Encrypted Text With Password
   public createEncryptedTextWithPassword = (text: string, password: string) => {
     const key = this._createCustomKey(password),
       iv = this._createIV();
-    // console.log("iv: ", iv);
-    // console.log("key: ", key);
     const cipher = crypto.createCipheriv(this._algorithm, key, iv);
     const encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex");
-    // console.log("encrypted: ", encrypted, text);
     return encrypted;
   };
 
@@ -58,6 +51,5 @@ export default class TextController {
     const decipher = crypto.createDecipheriv(this._algorithm, key, iv);
     const decrypted =
       decipher.update(encryptedText, "hex", "utf8") + decipher.final("utf8");
-    console.log("decrypted: ", decrypted);
   };
 }
