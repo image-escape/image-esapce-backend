@@ -33,6 +33,7 @@ app.use(
 app.use("/api", router);
 
 app.use("*", (req, res) => {
+  console.log("req: ", req.baseUrl);
   res.status(404).json({ message: "Not Found" });
 });
 
