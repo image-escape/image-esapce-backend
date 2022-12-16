@@ -32,30 +32,6 @@ app.use(
 );
 app.use("/api", router);
 
-app.post(
-  "/image/pass",
-  upload.fields([
-    {
-      name: "file",
-      maxCount: 1,
-    },
-    {
-      name: "pass",
-      maxCount: 1,
-    },
-  ]),
-  (req, res) => {
-    const password = req.body.pass;
-    const file: any = req.files;
-    const encoded = imageToBase64(file.file[0].buffer); // image is converted in base 64 format
-    const encryptedBaseText = createEncryptedTextWithPassword(
-      encoded,
-      password
-    );
-    res.status(200).send({ encryptedBaseText }); // encrypted base 64 format being sent
-  }
-);
-
 app.listen(5000, () => {
   console.log("🚀Server started on port 5000");
 });
