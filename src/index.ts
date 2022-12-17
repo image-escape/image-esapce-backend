@@ -32,8 +32,13 @@ app.use(
 );
 app.use("/api", router);
 
-app.listen(4000, () => {
-  console.log("🚀Server started on port 4000");
+app.use("*", (req, res) => {
+  console.log("req: ", req.baseUrl);
+  res.status(404).json({ message: "Not Found" });
+});
+
+app.listen(process.env.PORT, () => {
+  console.log("🚀Server started on port ", process.env.PORT);
 });
 
 // upload image > convert image to base64> using multer then encrypt without password

@@ -8,7 +8,8 @@
     "build": "tsc -p .",
     "serve": "tsc && nodemon -q dist/index.js",
     "prestart": "npm run build",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "pm2": "pm2 start dist/index.js --name image-backend"
   },
   "repository": {
     "type": "git",
