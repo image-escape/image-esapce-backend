@@ -44,8 +44,9 @@ jobs:
             sudo su - &&
             ls &&
             git checkout main &&
-            git pull &&
+            git pull origin main&&
             npm install -g pm2 &&
             npm install &&
             npm run build &&
+            pm2 delete image-backend &&
             npm run pm2
