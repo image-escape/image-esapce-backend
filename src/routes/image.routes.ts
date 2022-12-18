@@ -13,3 +13,4 @@ router.post("/", multerSingleUpload, imageWithoutPasswordController);
 router.post("/password", multerMultiUpload, imageWithPasswordController);
 
 export default router;
+
