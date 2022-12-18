@@ -45,5 +45,6 @@ jobs:
             ls &&
             git checkout main &&
             git pull &&
+            npm install -g pm2 &&
             npm install &&
             npm run pm2
