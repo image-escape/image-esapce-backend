@@ -47,4 +47,5 @@ jobs:
             git pull &&
             npm install -g pm2 &&
             npm install &&
+            npm run build &&
             npm run pm2
