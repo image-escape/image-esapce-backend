@@ -42,10 +42,8 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} &&
             sudo su - &&
-            ls &&
             git checkout main &&
-            git fetch origin main &&
-            git pull origin main &&
+            git pull &&
             npm install -g pm2 &&
             npm install &&
             npm run build &&
