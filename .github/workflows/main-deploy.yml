@@ -38,9 +38,10 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: sudo su -
+          script: |
+            sudo su -
             cd image-esapce-backend/
-            git pull
+            sudo git pull
             npm install
             npm run pm2
             pm2 restart all
