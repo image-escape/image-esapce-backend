@@ -22,32 +22,25 @@ jobs:
         run: |
           npm install
           npm run build
-
         env:
           CI: true
 
-  Deploy:
-    needs: build
+  deploy:
+    needs: [build]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy in EC2
-        env:
-          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-          HOSTNAME: ${{ secrets.HOST  }}
-          USER_NAME: ${{ secrets.USER  }}
-
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} &&
-            sudo su - &&
-            git checkout main &&
-            git pull &&
-            npm install -g pm2 &&
-            npm install &&
-            npm run build &&
-            npm run pm2 &&
-            pm2 delete all &&
-            npm run pm2 &&
+      - name: SSH deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            sudo su -
+            cd image-esapce-backend/
+            sudo git pull
+            npm install
+            npm run pm2
             pm2 restart all
