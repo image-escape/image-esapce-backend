@@ -11,8 +11,8 @@ const { imageWithoutPasswordController, imageWithPasswordController,decryptBase6
 
 router.post("/", multerSingleUpload, imageWithoutPasswordController);
 router.post("/password", multerMultiUpload, imageWithPasswordController);
-router.post("/decryptPass",multerMultiUpload, decryptBase64WithPassword);
-router.post("/decrypt",multerMultiUpload, decryptBase64);
+router.post("/decryptPass",decryptBase64WithPassword);//move these two to text routes
+router.post("/decrypt",decryptBase64);
 
 export default router;
 

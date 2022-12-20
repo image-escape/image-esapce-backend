@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ImageHelper from "../helpers/image.helper";
 import TextController from "../helpers/text.helper";
+import fs from "fs";
 
 const { createEncryptedText, createEncryptedTextWithPassword,createDecryptedTextWithPassword,createDecryptedText } =
   new TextController();
@@ -43,14 +44,13 @@ export default class ImageController extends ImageHelper {
   /**
    * decryptBase64WithPassword
    */
-  public decryptBase64WithPassword = async (req: Request, res: Response) => {
+  public decryptBase64WithPassword = async (req: Request, res: Response) => { //make text controller for this
     try{
-      const { password } = req.body,
-      { baseFile }: any = req.files;
-    const [{ buffer }] = baseFile;
+      const { password,encriptedText } = req.body;
+    const [{ buffer }] = encriptedText;
       createDecryptedTextWithPassword(buffer, password)
     }catch (error) {
-      console.log("error: ", error);
+
       res.status(500).send({ error });
     }
   };
@@ -60,11 +60,13 @@ export default class ImageController extends ImageHelper {
    */
    public decryptBase64 = async (req: Request, res: Response) => {
     try{
-      const { baseFile }: any = req.files;
-    const [{ buffer }] = baseFile;
-    createDecryptedText(buffer)
+      const { encriptedText } = req.body
+    const buffer = fs.readFileSync("encriptedText","utf-8");
+    const decryptedText= createDecryptedText(buffer);
+    console.log('decryptedText: ', decryptedText);
+
+    res.status(201).send({decryptedText});
     }catch (error) {
-      console.log("error: ", error);
       res.status(500).send({ error });
     }
   };
