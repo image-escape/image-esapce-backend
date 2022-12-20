@@ -6,7 +6,7 @@ import {
 } from "../middleware/multer.middleware";
 const router: Router = Router();
 
-const { imageWithoutPasswordController, imageWithPasswordController,decryptBase64WithPassword,decryptBase64 } =
+const { imageWithoutPasswordController, imageWithPasswordController,decryptWithPassword: decryptBase64WithPassword,decrypt: decryptBase64 } =
   new ImageController();
 
 router.post("/", multerSingleUpload, imageWithoutPasswordController);

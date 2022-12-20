@@ -10,4 +10,4 @@ export default class ImageHelper {
     const decodedImage = Buffer.from(code, Format.BASE_64);
     return decodedImage;
   }
-}
+};

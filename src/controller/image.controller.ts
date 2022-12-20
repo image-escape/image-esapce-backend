@@ -2,9 +2,14 @@ import { Request, Response } from "express";
 import ImageHelper from "../helpers/image.helper";
 import TextController from "../helpers/text.helper";
 import fs from "fs";
+import zlib from "zlib";
 
-const { createEncryptedText, createEncryptedTextWithPassword,createDecryptedTextWithPassword,createDecryptedText } =
-  new TextController();
+const {
+  createEncryptedText,
+  createEncryptedTextWithPassword,
+  createDecryptedTextWithPassword,
+  createDecryptedText,
+} = new TextController();
 
 export default class ImageController extends ImageHelper {
   public imageWithoutPasswordController = async (
@@ -44,13 +49,13 @@ export default class ImageController extends ImageHelper {
   /**
    * decryptBase64WithPassword
    */
-  public decryptBase64WithPassword = async (req: Request, res: Response) => { //make text controller for this
-    try{
-      const { password,encriptedText } = req.body;
-    const [{ buffer }] = encriptedText;
-      createDecryptedTextWithPassword(buffer, password)
-    }catch (error) {
-
+  public decryptWithPassword = async (req: Request, res: Response) => {
+    //make text controller for this
+    try {
+      const { password, encriptedText } = req.body;
+      const [{ buffer }] = encriptedText;
+      createDecryptedTextWithPassword(buffer, password);
+    } catch (error) {
       res.status(500).send({ error });
     }
   };
@@ -58,17 +63,27 @@ export default class ImageController extends ImageHelper {
   /**
    * decryptBase64
    */
-   public decryptBase64 = async (req: Request, res: Response) => {
-    try{
-      const { encriptedText } = req.body
-    const buffer = fs.readFileSync("encriptedText","utf-8");
-    const decryptedText= createDecryptedText(buffer);
-    console.log('decryptedText: ', decryptedText);
-
-    res.status(201).send({decryptedText});
-    }catch (error) {
+  public decrypt = async (req: Request, res: Response) => {
+    try {
+      const { deflate } = req.query;
+      console.log('deflate: ', typeof deflate);
+      console.log('deflate: ', deflate);
+      
+      // const { encriptedText } = req.body;
+      const buffer = fs.readFileSync(
+        "/Users/adityarai/Desktop/Local Clone/image-esapce-backend/applecare-hero-bb-201706.txt",
+        "utf-8"
+      );
+      const decryptedText = createDecryptedText(buffer);
+      const imageBuffer = this.base64ToImage(decryptedText);
+      if (deflate=="true") {
+        const deflatedData = zlib.deflateSync(imageBuffer).toString("utf-8");
+        res.status(201).send({ data:deflatedData });
+      } else{
+        res.status(201).send({ data:imageBuffer });
+      }
+    } catch (error) {
       res.status(500).send({ error });
     }
   };
-
 }
