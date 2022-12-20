@@ -66,15 +66,8 @@ export default class ImageController extends ImageHelper {
   public decrypt = async (req: Request, res: Response) => {
     try {
       const { deflate } = req.query;
-      console.log('deflate: ', typeof deflate);
-      console.log('deflate: ', deflate);
-      
-      // const { encriptedText } = req.body;
-      const buffer = fs.readFileSync(
-        "/Users/adityarai/Desktop/Local Clone/image-esapce-backend/applecare-hero-bb-201706.txt",
-        "utf-8"
-      );
-      const decryptedText = createDecryptedText(buffer);
+      const { encriptedText } = req.body;
+      const decryptedText = createDecryptedText(encriptedText);
       const imageBuffer = this.base64ToImage(decryptedText);
       if (deflate=="true") {
         const deflatedData = zlib.deflateSync(imageBuffer).toString("utf-8");
