@@ -41,5 +41,6 @@ jobs:
             cd image-esapce-backend/
             sudo git pull
             sudo npm install
-            sudo npm run pm2
-            sudo pm2 restart all
+            npm run pm2
+            pm2 restart all
+            pm2 save
