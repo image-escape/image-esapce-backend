@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import ImageHelper from "../helpers/image.helper";
 import TextController from "../helpers/text.helper";
 
-const { createEncryptedText, createEncryptedTextWithPassword } =
+const { createEncryptedText, createEncryptedTextWithPassword,createDecryptedTextWithPassword,createDecryptedText } =
   new TextController();
 
 export default class ImageController extends ImageHelper {
@@ -39,4 +39,34 @@ export default class ImageController extends ImageHelper {
       res.status(500).send({ error });
     }
   };
+
+  /**
+   * decryptBase64WithPassword
+   */
+  public decryptBase64WithPassword = async (req: Request, res: Response) => {
+    try{
+      const { password } = req.body,
+      { baseFile }: any = req.files;
+    const [{ buffer }] = baseFile;
+      createDecryptedTextWithPassword(buffer, password)
+    }catch (error) {
+      console.log("error: ", error);
+      res.status(500).send({ error });
+    }
+  };
+
+  /**
+   * decryptBase64
+   */
+   public decryptBase64 = async (req: Request, res: Response) => {
+    try{
+      const { baseFile }: any = req.files;
+    const [{ buffer }] = baseFile;
+    createDecryptedText(buffer)
+    }catch (error) {
+      console.log("error: ", error);
+      res.status(500).send({ error });
+    }
+  };
+
 }
