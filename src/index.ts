@@ -34,7 +34,7 @@ app.use("/api", router);
 
 app.use("*", (req, res) => {
   const baseUrl = req.baseUrl;
-  res.status(404).json({ message: "Route Not Found!", baseUrl });
+  res.status(404).json({ message: "Route Not Found!#", baseUrl });
 });
 
 app.listen(process.env.PORT, () => {
