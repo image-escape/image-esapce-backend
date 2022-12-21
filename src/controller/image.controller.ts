@@ -78,6 +78,10 @@ export default class ImageController extends ImageHelper {
     try {
       const { deflate } = req.query;
       const { encryptedText } = req.body;
+      if (!encryptedText) {
+        res.status(400).send({ message: "No text found" });
+        return;
+      }
       const decryptedText = createDecryptedText(encryptedText);
       const imageBuffer = this.base64ToImage(decryptedText);
       if (deflate == "true") {
