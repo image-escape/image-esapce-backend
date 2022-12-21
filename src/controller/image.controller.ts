@@ -66,15 +66,6 @@ export default class ImageController extends ImageHelper {
     } catch (error) {
       res.status(500).send({ error });
     }
-
-
-    // try {
-    //   const { password, encriptedText } = req.body;
-    //   const [{ buffer }] = encriptedText;
-    //   createDecryptedTextWithPassword(buffer, password);
-    // } catch (error) {
-    //   res.status(500).send({ error });
-    // }
   };
 
   /**
