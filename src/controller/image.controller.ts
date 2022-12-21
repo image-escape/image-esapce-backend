@@ -51,13 +51,30 @@ export default class ImageController extends ImageHelper {
    */
   public decryptWithPassword = async (req: Request, res: Response) => {
     //make text controller for this
+
     try {
-      const { password, encriptedText } = req.body;
-      const [{ buffer }] = encriptedText;
-      createDecryptedTextWithPassword(buffer, password);
+      const { deflate } = req.query;
+      const { encriptedText,password } = req.body;
+      const decryptedText = createDecryptedTextWithPassword(encriptedText,password);
+      const imageBuffer = this.base64ToImage(decryptedText);
+      if (deflate=="true") {
+        const deflatedData = zlib.deflateSync(imageBuffer).toString("utf-8");
+        res.status(201).send({ data:deflatedData });
+      } else{
+        res.status(201).send({ data:imageBuffer });
+      }
     } catch (error) {
       res.status(500).send({ error });
     }
+
+
+    // try {
+    //   const { password, encriptedText } = req.body;
+    //   const [{ buffer }] = encriptedText;
+    //   createDecryptedTextWithPassword(buffer, password);
+    // } catch (error) {
+    //   res.status(500).send({ error });
+    // }
   };
 
   /**
