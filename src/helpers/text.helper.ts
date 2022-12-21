@@ -31,7 +31,7 @@ export default class TextController {
     const decipher = crypto.createDecipheriv(this._algorithm, key, iv);
     const decrypted =
       decipher.update(encryptedText, "hex", "utf8") + decipher.final("utf8");
-      return decrypted;
+    return decrypted;
   };
 
   // To Create Encrypted Text With Password
@@ -52,5 +52,6 @@ export default class TextController {
     const decipher = crypto.createDecipheriv(this._algorithm, key, iv);
     const decrypted =
       decipher.update(encryptedText, "hex", "utf8") + decipher.final("utf8");
+    return decrypted;
   };
 }
