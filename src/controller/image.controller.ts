@@ -54,14 +54,17 @@ export default class ImageController extends ImageHelper {
 
     try {
       const { deflate } = req.query;
-      const { encriptedText,password } = req.body;
-      const decryptedText = createDecryptedTextWithPassword(encriptedText,password);
+      const { encryptedText, password } = req.body;
+      const decryptedText = createDecryptedTextWithPassword(
+        encryptedText,
+        password
+      );
       const imageBuffer = this.base64ToImage(decryptedText);
-      if (deflate=="true") {
+      if (deflate == "true") {
         const deflatedData = zlib.deflateSync(imageBuffer).toString("utf-8");
-        res.status(201).send({ data:deflatedData });
-      } else{
-        res.status(201).send({ data:imageBuffer });
+        res.status(201).send({ data: deflatedData });
+      } else {
+        res.status(201).send({ data: imageBuffer });
       }
     } catch (error) {
       res.status(500).send({ error });
@@ -74,14 +77,14 @@ export default class ImageController extends ImageHelper {
   public decrypt = async (req: Request, res: Response) => {
     try {
       const { deflate } = req.query;
-      const { encriptedText } = req.body;
-      const decryptedText = createDecryptedText(encriptedText);
+      const { encryptedText } = req.body;
+      const decryptedText = createDecryptedText(encryptedText);
       const imageBuffer = this.base64ToImage(decryptedText);
-      if (deflate=="true") {
+      if (deflate == "true") {
         const deflatedData = zlib.deflateSync(imageBuffer).toString("utf-8");
-        res.status(201).send({ data:deflatedData });
-      } else{
-        res.status(201).send({ data:imageBuffer });
+        res.status(201).send({ data: deflatedData });
+      } else {
+        res.status(201).send({ data: imageBuffer });
       }
     } catch (error) {
       res.status(500).send({ error });
